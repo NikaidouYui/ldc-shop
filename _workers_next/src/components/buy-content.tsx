@@ -395,7 +395,7 @@ export function BuyContent({
                 </Card>
 
                 {/* Reviews Section */}
-                <Card className="tech-card mt-8">
+                <Card id="reviews" className="tech-card mt-8 scroll-mt-20">
                     <CardHeader>
                         <div className="flex items-center justify-between">
                             <CardTitle className="flex items-center gap-3">

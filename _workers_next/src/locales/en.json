@@ -180,7 +180,8 @@
         "noResults": "No matching orders",
         "count": "{{count}} orders",
         "searchPlaceholder": "Search by order id / product...",
-        "browseProducts": "Browse Products"
+        "browseProducts": "Browse Products",
+        "writeReview": "Review"
     },
     "admin": {
         "settings": {

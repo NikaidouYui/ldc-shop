@@ -180,7 +180,8 @@
         "noResults": "没有符合条件的订单",
         "count": "共 {{count}} 笔订单",
         "searchPlaceholder": "搜索订单号 / 商品...",
-        "browseProducts": "浏览商品"
+        "browseProducts": "浏览商品",
+        "writeReview": "评价"
     },
     "admin": {
         "settings": {
