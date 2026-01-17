@@ -402,7 +402,11 @@
             "placeholder": "输入卡密，支持换行或逗号分隔...",
             "available": "可用",
             "used": "已使用",
-            "noCards": "暂无卡密"
+            "noCards": "暂无卡密",
+            "batchDelete": "批量删除",
+            "selectAll": "全选",
+            "selectedCount": "已选: {{count}}",
+            "confirmBatchDelete": "确认删除选中的 {{count}} 个卡密？"
         },
         "productForm": {
             "addTitle": "添加商品",

@@ -3,7 +3,7 @@
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { products, cards, reviews, categories } from "@/lib/db/schema"
-import { eq, sql } from "drizzle-orm"
+import { eq, sql, inArray } from "drizzle-orm"
 import { revalidatePath } from "next/cache"
 import { setSetting } from "@/lib/db/queries"
 
@@ -204,6 +204,33 @@ export async function deleteCard(cardId: number) {
     }
 
     await db.delete(cards).where(eq(cards.id, cardId))
+
+    revalidatePath('/admin/products')
+    revalidatePath('/admin/settings')
+    revalidatePath('/admin/cards')
+    revalidatePath('/')
+}
+
+export async function deleteCards(cardIds: number[]) {
+    await checkAdmin()
+
+    if (!cardIds.length) return
+
+    const BATCH_SIZE = 100
+    for (let i = 0; i < cardIds.length; i += BATCH_SIZE) {
+        const batch = cardIds.slice(i, i + BATCH_SIZE)
+
+        await db.delete(cards)
+            .where(
+                sql`${cards.id} IN ${batch} 
+                AND (
+                    ${cards.isUsed} IS NULL OR ${cards.isUsed} = 0
+                )
+                AND (
+                    ${cards.reservedAt} IS NULL OR ${cards.reservedAt} <= ${Date.now() - 60 * 1000}
+                )`
+            )
+    }
 
     revalidatePath('/admin/products')
     revalidatePath('/admin/settings')

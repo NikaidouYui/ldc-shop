@@ -402,7 +402,11 @@
             "placeholder": "Enter card keys, separated by newlines or commas...",
             "available": "Available",
             "used": "Used",
-            "noCards": "No cards added yet."
+            "noCards": "No cards",
+            "batchDelete": "Batch Delete",
+            "selectAll": "Select All",
+            "selectedCount": "Selected: {{count}}",
+            "confirmBatchDelete": "Confirm delete {{count}} items?"
         },
         "productForm": {
             "addTitle": "Add New Product",
