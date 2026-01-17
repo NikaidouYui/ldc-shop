@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { orders, cards, products, users } from "@/lib/db/schema";
+import { orders, cards, products, loginUsers as users } from "@/lib/db/schema";
 import { eq, sql } from "drizzle-orm";
 import { isPaymentOrder } from "@/lib/payment";
 import { notifyAdminPaymentSuccess } from "@/lib/notifications";
@@ -33,7 +33,7 @@ export async function processOrderFulfillment(orderId: string, paidAmount: numbe
 
             // Notify Admin
             const user = await db.query.users.findFirst({
-                where: eq(users.id, order.userId || ''),
+                where: eq(users.userId, order.userId || ''),
                 columns: { username: true, email: true }
             }).catch(() => null);
 
@@ -87,8 +87,8 @@ export async function processOrderFulfillment(orderId: string, paidAmount: numbe
                 console.log(`[Fulfill] Shared product order ${orderId} delivered. Card: ${key}`);
 
                 // Notify Admin
-                const user = await db.query.users.findFirst({
-                    where: eq(users.id, order.userId || ''),
+                const user = await db.query.loginUsers.findFirst({
+                    where: eq(users.userId, order.userId || ''),
                     columns: { username: true, email: true }
                 }).catch(() => null);
 
@@ -110,8 +110,8 @@ export async function processOrderFulfillment(orderId: string, paidAmount: numbe
                 console.log(`[Fulfill] Order ${orderId} marked as paid (no stock for shared product)`);
 
                 // Notify Admin
-                const user = await db.query.users.findFirst({
-                    where: eq(users.id, order.userId || ''),
+                const user = await db.query.loginUsers.findFirst({
+                    where: eq(users.userId, order.userId || ''),
                     columns: { username: true, email: true }
                 }).catch(() => null);
 
@@ -189,7 +189,7 @@ export async function processOrderFulfillment(orderId: string, paidAmount: numbe
 
             // Notify Admin
             const user = await db.query.users.findFirst({
-                where: eq(users.id, order.userId || ''),
+                where: eq(users.userId, order.userId || ''),
                 columns: { username: true, email: true }
             }).catch(() => null);
 
@@ -215,7 +215,7 @@ export async function processOrderFulfillment(orderId: string, paidAmount: numbe
 
             // Notify Admin
             const user = await db.query.users.findFirst({
-                where: eq(users.id, order.userId || ''),
+                where: eq(users.userId, order.userId || ''),
                 columns: { username: true, email: true }
             }).catch(() => null);
 
