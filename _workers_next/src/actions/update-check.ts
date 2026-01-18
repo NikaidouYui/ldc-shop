@@ -105,6 +105,6 @@ function compareVersions(a: string, b: string): number {
     return 0
 }
 
-export function getCurrentVersion(): string {
+export async function getCurrentVersion(): Promise<string> {
     return CURRENT_VERSION
 }
