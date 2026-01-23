@@ -6,7 +6,7 @@ import { notifyAdminPaymentSuccess } from "@/lib/notifications";
 import { sendOrderEmail } from "@/lib/email";
 import { recalcProductAggregates, createUserNotification } from "@/lib/db/queries";
 import { RESERVATION_TTL_MS } from "@/lib/constants";
-import { revalidateTag } from "next/cache";
+import { updateTag } from "next/cache";
 import { after } from "next/server";
 
 export async function processOrderFulfillment(orderId: string, paidAmount: number, tradeNo: string) {
@@ -33,7 +33,8 @@ export async function processOrderFulfillment(orderId: string, paidAmount: numbe
             // best effort
         }
         try {
-            revalidateTag('home:products', 'max');
+            updateTag('home:products');
+            updateTag('home:product-categories');
         } catch {
             // best effort
         }

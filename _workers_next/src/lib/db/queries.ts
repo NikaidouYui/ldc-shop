@@ -2,7 +2,7 @@ import { db } from "./index";
 import { products, cards, orders, settings, reviews, loginUsers, categories, userNotifications, wishlistItems, wishlistVotes } from "./schema";
 import { INFINITE_STOCK, RESERVATION_TTL_MS } from "@/lib/constants";
 import { eq, sql, desc, and, asc, gte, or, inArray, lte } from "drizzle-orm";
-import { revalidateTag } from "next/cache";
+import { updateTag } from "next/cache";
 import { cache } from "react";
 
 // Database initialization state
@@ -1619,7 +1619,7 @@ export async function recordLoginUser(userId: string, username?: string | null, 
         });
         if ((result as any)?.meta?.changes === 1) {
             try {
-                revalidateTag('home:visitors', 'max');
+                updateTag('home:visitors');
             } catch {
                 // best effort
             }
@@ -1646,7 +1646,7 @@ export async function recordLoginUser(userId: string, username?: string | null, 
             });
             if ((result as any)?.meta?.changes === 1) {
                 try {
-                    revalidateTag('home:visitors', 'max');
+                    updateTag('home:visitors');
                 } catch {
                     // best effort
                 }
@@ -1787,7 +1787,8 @@ export async function cancelExpiredOrders(filters: { productId?: string; userId?
             // best effort
         }
         try {
-            revalidateTag('home:products', 'max');
+            updateTag('home:products');
+            updateTag('home:product-categories');
         } catch {
             // best effort
         }

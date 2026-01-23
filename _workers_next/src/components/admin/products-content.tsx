@@ -3,6 +3,7 @@
 import { useRef, useState } from "react"
 import { useI18n } from "@/lib/i18n/context"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -32,6 +33,7 @@ export function AdminProductsContent({ products, lowStockThreshold }: AdminProdu
     const { t } = useI18n()
     const [busy, setBusy] = useState(false)
     const busyRef = useRef(false)
+    const router = useRouter()
 
     const threshold = lowStockThreshold || 5
 
@@ -190,9 +192,13 @@ export function AdminProductsContent({ products, lowStockThreshold }: AdminProdu
                                     <Link href={`/admin/cards/${product.id}`}>
                                         <Button variant="outline" size="sm">{t('admin.products.manageCards')}</Button>
                                     </Link>
-                                    <Link href={`/admin/product/edit/${product.id}`} prefetch={false}>
-                                        <Button variant="outline" size="sm">{t('common.edit')}</Button>
-                                    </Link>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => router.push(`/admin/product/edit/${product.id}?ts=${Date.now()}`)}
+                                    >
+                                        {t('common.edit')}
+                                    </Button>
                                     <Button variant="destructive" size="sm" onClick={() => handleDelete(product.id)} disabled={busy}>
                                         {t('common.delete')}
                                     </Button>
